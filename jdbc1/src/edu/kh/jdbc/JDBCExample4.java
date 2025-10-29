@@ -45,14 +45,17 @@ public class JDBCExample4 {
 			boolean flag = true; // 조회 결과가 있다면 false, 없으면 true
 			
 			while(rs.next()) {
+				
+				flag = false; // 조회 결과가 있음을 표시
+				
 				String empId = rs.getString("EMP_ID");
 				String empName = rs.getString("EMP_NAME");
 				String dTitle = rs.getString("DEPT_TITLE");
 				String jName = rs.getString("JOB_NAME");
 				
 				System.out.printf("%s / %s / %s / %s \n", empId, empName, dTitle, jName);
-				flag = false;
 			}
+			
 			if(flag) System.out.println("일치하는 부서가 없습니다.");
 			
 		} catch (Exception e) {
@@ -80,3 +83,25 @@ public class JDBCExample4 {
 	}
 
 }
+
+/* 	// 6-2) return 사용법
+			if(!rs.next()) {
+				System.out.println("일치하는 부서가 없습니다");
+				return;
+			}
+			
+			// 왜 do~while 문?
+			// 위 if문 조건에서 이미 첫번째행 커서가 소비됨.
+			// 보통 while문 사용 시 next()를 바로 만나면서 2행부터 접근하게됨.
+			// do~while문 사용하여 next() 하지 않아도 1번째행 부터 접근할 수 있도록 함.
+			
+			do {
+				String empId = rs.getString("EMP_ID");
+				String empName = rs.getString("EMP_NAME");
+				String deptTitle = rs.getString("DEPT_TITLE");
+				String jobName = rs.getString("JOB_NAME");
+				
+				System.out.printf("%s / %s / %s / %s \n", 
+						empId, empName, deptTitle, jobName);
+			} while(rs.next());
+*/
