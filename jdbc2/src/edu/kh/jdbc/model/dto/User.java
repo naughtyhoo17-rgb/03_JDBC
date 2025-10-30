@@ -17,7 +17,7 @@ import lombok.ToString;
  	
  	[사용 방법]
  	1. 사용 하고자하는 프로젝트에 라이브러리 추가
- 	2. java 코드 작성 하고있는 IDE를 설치 (tools -> powershell) */
+ 	2. java 코드 작성 하고있는 IDE를 설치 (tools -> Powershell) */
 
 @Getter
 @Setter
