@@ -7,6 +7,8 @@ public class Run {
 	public static void main(String[] args) {
 		
 		UserView view = new UserView(); // 객체화
+		
+		view.mainMenu();
 
 	}
 
