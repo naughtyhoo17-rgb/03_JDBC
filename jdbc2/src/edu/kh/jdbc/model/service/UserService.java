@@ -104,5 +104,86 @@ public class UserService {
 		return result;
 	}
 
+	/** 6-1. ID, PW가 일치하는 회원이 있는지 조회(SELECT)
+	 * @param userId
+	 * @param userPw
+	 * @return
+	 */
+	public int selectUserNo(String userId, String userPw) throws Exception{
+		
+		Connection conn = getConnection();
+		
+		int userNo = dao.selectUser(conn, userId, userPw);
+		
+		close(conn);
+		
+		return userNo;
+	}
 
+	/** 6-2. USER_NO가 일치하는 회원의 이름 수정 서비스(UPDATE)
+	 * @param name
+	 * @param userNo
+	 * @return
+	 */
+	public int updateName(String name, int userNo) throws Exception{
+		
+		Connection conn = getConnection();
+		
+		int result = dao.updateName(conn, name, userNo);
+		
+		if(result > 0) commit(conn);
+		else		   rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	/** 7. 아이디 중복 확인 서비스
+	 * @param userId
+	 * @return
+	 */
+	public int idCheck(String userId) throws Exception {
+		
+		Connection conn = getConnection();
+		
+		int count = dao.idCheck(conn, userId);
+		
+		close(conn);
+		
+		return count;
+	}
+
+	/** userList에 있는 모든 User 객체를 INSERT 서비스
+	 * @param userList
+	 * @return
+	 */
+	public int multiInsertUser(List<User> userList) throws Exception{
+		
+		// 다중 INSERT 방법
+		// 1) SQL 을 이용한 다중 INSERT
+		// 2) Java 반복문을 이용한 다중 INSERT (이거 사용!)
+		
+		Connection conn = getConnection();
+		
+		int count = 0; // 삽입 성공한 행의 갯수 count
+		
+		for(User user : userList) {
+			int result = dao.insertUser(conn, user);
+			count += result; // 삽입 성공한 행의 갯수를 count 누적
+		}
+		
+		//count--;
+		
+		// 전체 삽입 성공 시 commit / 아니면 rollback(일부 삽입, 전체 실패)
+		if(count == userList.size()) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return count;
+	}
 }

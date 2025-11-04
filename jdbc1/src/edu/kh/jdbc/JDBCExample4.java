@@ -14,6 +14,7 @@ public class JDBCExample4 {
 		// 사번, 이름, 부서명, 직급명을
 		// 직급코드 오름차순 조회
 		
+		// 1. JDBC 객체 참조 변수 선언
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -21,6 +22,7 @@ public class JDBCExample4 {
 		Scanner sc = null;
 		
 		try {
+			// 2. DriverManager 객체 이용하여 Connection 생성
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			
 			String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -29,6 +31,7 @@ public class JDBCExample4 {
 			
 			conn = DriverManager.getConnection(url, userName, password);
 			
+			// 3. SQL 작성
 			sc = new Scanner(System.in);
 			System.out.print("부서명 입력 : ");
 			String input = sc.next();
@@ -38,10 +41,15 @@ public class JDBCExample4 {
 					+ "JOIN DEPARTMENT ON (DEPT_CODE = DEPT_ID) "
 					+ "WHERE DEPT_TITLE = " + "'" + input + "' ORDER BY JOB_CODE";
 			
+			// 4. Statement 객체 생성
 			stmt = conn.createStatement();
 			
+			// 5. SQL 수행 후 결과 반환 받기
 			rs = stmt.executeQuery(sql);
-
+			
+			// 6. ResultSet의 모든 행 데이터 얻어오기
+			
+				// 6-1 flag 이용법
 			boolean flag = true; // 조회 결과가 있다면 false, 없으면 true
 			
 			while(rs.next()) {
@@ -64,6 +72,7 @@ public class JDBCExample4 {
 			
 		} finally {
 			
+			// 7. 사용완료한 jdbc 객체 자원 반환
 			try {
 				
 				if(rs != null) rs.close();
